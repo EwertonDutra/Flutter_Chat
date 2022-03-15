@@ -8,6 +8,8 @@ import 'package:flutter_chat/text_composer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'chat_message.dart';
+
 class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
 
@@ -119,8 +121,8 @@ class _ChatScreenState extends State<ChatScreen> {
                       itemCount: documents.length,
                       reverse: true,
                       itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(documents[index].get('text')),
+                        return ChatMessage(
+                          data: documents[index].data() as Map<String, dynamic>,
                         );
                       },
                     );
