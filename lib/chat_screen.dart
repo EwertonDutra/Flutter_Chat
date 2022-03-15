@@ -123,6 +123,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       itemBuilder: (context, index) {
                         return ChatMessage(
                           data: documents[index].data() as Map<String, dynamic>,
+                          mine: true,
                         );
                       },
                     );

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class ChatMessage extends StatelessWidget {
-  const ChatMessage({Key? key, required this.data}) : super(key: key);
+  const ChatMessage({Key? key, required this.data, required this.mine})
+      : super(key: key);
 
   final Map<String, dynamic> data;
+  final bool? mine;
 
   @override
   Widget build(BuildContext context) {
@@ -11,27 +13,51 @@ class ChatMessage extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       child: Row(
         children: [
-          CircleAvatar(
-            backgroundImage: NetworkImage(data['senderPhotoUrl']),
-          ),
-          Expanded(
-              child: Column(
-            children: [
-              data['imgUrl'] != null
-                  ? Image.network(data['imgUrl'])
-                  : Text(
-                      data['text'],
-                      style: const TextStyle(
-                        fontSize: 16,
-                      ),
+          !mine!
+              ? Padding(
+                  padding: const EdgeInsets.only(right: 16),
+                  child: CircleAvatar(
+                    backgroundImage: NetworkImage(
+                      data['senderPhotoUrl'],
                     ),
-              Text(
-                data['senderName'],
-                style:
-                    const TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
-              )
-            ],
-          )),
+                  ),
+                )
+              : Container(),
+          Expanded(
+            child: Column(
+              crossAxisAlignment:
+                  mine! ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+              children: [
+                data['imgUrl'] != null
+                    ? Image.network(
+                        data['imgUrl'],
+                        width: 250,
+                      )
+                    : Text(
+                        data['text'],
+                        textAlign: mine! ? TextAlign.end : TextAlign.start,
+                        style: const TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                Text(
+                  data['senderName'],
+                  style: const TextStyle(
+                      fontSize: 13, fontWeight: FontWeight.w500),
+                )
+              ],
+            ),
+          ),
+          mine!
+              ? Padding(
+                  padding: const EdgeInsets.only(left: 16),
+                  child: CircleAvatar(
+                    backgroundImage: NetworkImage(
+                      data['senderPhotoUrl'],
+                    ),
+                  ),
+                )
+              : Container(),
         ],
       ),
     );
